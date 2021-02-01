@@ -14,3 +14,53 @@ And there are 4 statistics output per queue
 - **totalCount**: total count from the birth of queue
 - **duration**: number of millisecond timed per minute/snapshot
 - **totalDuration**: total duration from the birth of queue
+
+# Query
+You are adviced to modify the **getLines** function in order to obtain desired chart.
+````
+getLines = () => [
+  {
+    label: "Q-CMDFCASCADE-C.addQueue",
+    data: getData("Q-CMDFCASCADE-C.addQueue", "totalCount"),
+  },
+  {
+    label: "Q-CMDFCASCADE-C.process",
+    data: getData("Q-CMDFCASCADE-C.process", "totalCount"),
+  },
+];
+
+reload();
+````
+Directly edit the function in *developer console (F12)* and call **reload** to redraw the chart.
+
+The key point is *getData* which extracts the property of a certain queue.
+````
+getData("Q-CMDFCASCADE-C.addQueue", "totalCount")
+````
+| Queue ID | Action | Property|
+|----------|--------|---------|
+|Q-CMDFCASCADE-C|addQueue|totalCount|
+|Q-CMDFCASCADE-C|process|totalCount|
+|Q-CMDFCASCADE-C|addQueue|count|
+|Q-CMDFCASCADE-C|process|count|
+|Q-CMDFCASCADE-C|timewait|duration|
+|Q-CMDFCASCADE-C|timeused|duration|
+|Q-CMDFMSGPUB-S|addQueue|totalCount|
+|Q-CMDFMSGPUB-S|process|totalCount|
+
+Adjust the parameters according to your kpi.txt.
+
+Filter data is easy. E.g. filter data by time:
+````
+getData("Q-CMDFCASCADE-C.addQueue", "totalCount").filter(t => t.x.getHours() >= 9)
+````
+
+# Analysis
+The queue data usually come in pair, like *addQueue/process* and *timewait/timeused*. Since our executor execute items in series, items added may not be executed at once. Thus, items are in a cycle
+
+| addQueue | > | timewait | > | process | > | timeused |
+|----------|---|----------|---|---------|---|----------|
+
+Counting the number of *addQueue* versus *process* gives you an insight of how queue item is accumulated inside the queue. The *timewait* and *timeused* pair shows how delay and blockage happens in the satistics aspect.
+
+> Usually, combining *kpi.txt* and *gc.log* and *NetInfo.txt* may give you a brief picture of resource consumption.
