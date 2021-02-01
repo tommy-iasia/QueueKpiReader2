@@ -1,3 +1,10 @@
+.file {
+  margin: 10px;
+  padding: 10px;
+  background-color: skyblue;
+  color: white;
+}
+
 .file.disabled {
   display: none;
 }
