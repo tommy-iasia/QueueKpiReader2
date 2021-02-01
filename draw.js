@@ -39,9 +39,8 @@ function draw(lines) {
           {
             type: "time",
             time: {
-              displayFormats: {
-                quarter: "second",
-              },
+              unit: "minute",
+              unitStepSize: 60,
             },
           },
         ],
