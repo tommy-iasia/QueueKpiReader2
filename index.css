@@ -1,0 +1,17 @@
+.file.disabled {
+  display: none;
+}
+
+.chart:not(.active) {
+  display: none;
+}
+
+.type .item {
+  display: inline-block;
+  padding: 5px 15px 7px 15px;
+  background-color: #ddd;
+}
+
+.type .item.active {
+  background-color: #8d8;
+}
