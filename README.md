@@ -12,14 +12,14 @@ Directly edit the two filter functions in developer console (F12) and call reloa
 | filterData | line: { label: string, data } |
 | filterLine | data: { x: date, y: number } |
 
-eg. Take data points which are after 9 a.m.
+e.g. Takes queues named with **"Q_OMDI_TO_"- prefix** only.
 ````
-filterData = (t) => t.x.getHours() >= 9;
+filterLine = t => t.label.startsWith("Q_OMDI_TO_");
 reload();
 ````
-e.g. Takes queues named with "Q-ITMDF"- prefix only.
+eg. Take data points which are **after 9 a.m.**
 ````
-filterLine = t => t.label.startsWith("Q-ITMDF-");
+filterData = (t) => t.x.getHours() >= 9;
 reload();
 ````
 
