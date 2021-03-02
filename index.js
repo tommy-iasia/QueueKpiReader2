@@ -14,7 +14,10 @@ $(function () {
 });
 
 function reload() {
-  var lines = getLines();
+  var lines = getLines()
+    .filter(filterLine)
+    .map((t) => ({ ...t, data: t.data.filter(filterData) }));
+
   draw(lines);
 }
 
@@ -39,3 +42,6 @@ let getLines = () => {
     },
   ]);
 };
+
+let filterLine = (line) => true;
+let filterData = (data) => true;
